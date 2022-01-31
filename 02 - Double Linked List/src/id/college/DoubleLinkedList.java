@@ -129,10 +129,12 @@ public class DoubleLinkedList {
          * output: n-node → newNode
          * */
 
-        if( position < 0 || position > count() ) {
+        if (position < 0 || position > count()) {
             System.out.println("the position is out of range!");
-        } else if( position == 1 ) {
+        } else if (position == 1) {
             insertFirst(data);
+        } else if (position == count()) {
+            insertLast(data);
         } else {
             Node curr = this.head;
             int count = 1;
@@ -155,6 +157,92 @@ public class DoubleLinkedList {
         }
     }
 
+    public void deleteFirst() {
+        /*
+         * deleteFirst( )
+         * → this is a method which is used for delete the
+         *   element of a linked list on first position
+         *
+         * → the visibility is public
+         *
+         * input : -
+         * output: first element deleted
+         * */
+
+        Node del = this.head;       // create del node as copy of curr head node
+        del.next.prev = null;       // set del's next's prev to null, because it will be the first elemet when del is deleted
+        this.head = del.next;       // set the head to del's next
+        del = null;                 // delete node del
+
+        // message
+        System.out.println("✅ : The node has been delete first.");
+        // displaying
+        display();
+    }
+
+    public void deleteLast() {
+        /*
+         * deleteFirst( )
+         * → this is a method which is used for delete the
+         *   element of a linked list on last position
+         *
+         * → the visibility is public
+         *
+         * input : -
+         * output: last element deleted
+         * */
+
+        Node del = this.tail;       // create del node as copy of curr tail node
+        this.tail = del.prev;       // set tail to del's prev
+        this.tail.next = null;      // set the tail's next to null
+        del = null;                 // delete node del
+
+        // message
+        System.out.println("✅ : The node has been delete last.");
+        // displaying
+        display();
+    }
+
+    public void deleteIn(int position) {
+        /*
+         * deleteIn(position)
+         * → this is a method which is used for delete the
+         *   element of a linked list on -=position
+         *
+         * → the visibility is public
+         *
+         * input : -
+         * output: n element deleted
+         * */
+
+        // conditions
+        if( position < 0 || position > count() ) {  // if position is less than 0 or greater than sum of nodes
+            System.out.println("position is out of range");
+        } else if( position == 1 ) {        // if position is one
+            deleteFirst();
+        } else if( position == count() ) {  // if position is same like the sum of nodes
+            deleteLast();
+        } else {
+            Node curr = this.head;          // create node curr as a navigation
+            int counter = 1;                // create counter variable
+
+            while( counter < position ) {   // looping
+                curr = curr.next;           // set curr node to curr's next
+                counter++;                  // increment the counter
+            }
+
+            curr.prev.next = curr.next;     // set curr's prev's next to curr's next
+            curr.next.prev = curr.prev;     // set curr's next's prev to curr's prev
+            curr = null;                    // set curr to null ( delete it )
+
+            // message
+            System.out.println("✅ : The node has been delete in position-"+position);
+            // displaying
+            display();
+        }
+
+    }
+
     private void display() {
         /*
          * display( )
@@ -174,6 +262,34 @@ public class DoubleLinkedList {
         }
 
         System.out.println();
+    }
+
+    public void destroy() {
+        /*
+         * destroy( )
+         * → this is a void method which is used for deleting all
+         *   element of a linked list
+         *
+         * → the visibility is public
+         *
+         * input : -
+         * output: all element are deleted
+         * */
+
+        Node curr = this.head;
+        Node del;
+        while( curr != null ) {
+            del = curr;
+            curr = curr.next;
+            del = null;
+        }
+
+        this.head = null;
+        this.tail = null;
+
+        // message
+        System.out.println("✅ : The node has been destroyed.");
+
     }
 
 }
